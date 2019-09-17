@@ -1,0 +1,6 @@
+{
+    "payload": {
+        "firstPipelineMessage": "${ctx.prev.result.firstPipelineMessage}",
+        "secondPipelineMessage": "this message come from second function",
+    }
+}

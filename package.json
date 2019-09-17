@@ -1,13 +1,16 @@
 {
-  "name": "serverless-appsync-offline",
-  "version": "1.4.0",
+  "name": "serverless-offline-appsync",
+  "version": "1.0.0",
   "description": "Serverless AWS AppSync Offline Plugin - Allow to run AppSync locally for serverless framework",
   "main": "index.js",
   "engines": {
     "node": ">=8"
   },
-  "repository": "git@github.com:aheissenberger/serverless-appsync-offline.git",
-  "author": "Andreas Heissenberger <andreas@heissenberger.at>",
+  "repository": "git@github.com:cyberwombat/serverless-appsync-offline.git",
+  "contributors": [
+    "Yashua Savage <contact@enradia.com",
+    "Andreas Heissenberger <andreas@heissenberger.at>"
+  ],
   "license": "MIT",
   "keywords": [
     "serverless framework plugin",
@@ -28,15 +31,45 @@
     "test": "jest --no-cache"
   },
   "dependencies": {
-    "@conduitvc/appsync-emulator-serverless": "^0.14.0",
+    "@conduitvc/aws-utils": "^1.2.1",
+    "@conduitvc/mosca": "^2.8.3-patch.3",
+    "apollo-boost": "^0.4.4",
+    "argparse": "^1.0.10",
+    "aws-appsync": "^2.0.0",
     "aws-sdk": "^2.463.0",
-    "lodash": "^4.17.11"
+    "consola": "^2.10.1",
+    "cors": "^2.8.5",
+    "dataloader": "^1.4.0",
+    "dateformat": "^3.0.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "event-to-promise": "^0.8.0",
+    "express": "^4.17.1",
+    "faker": "^4.1.0",
+    "graphql": "^14.5.6",
+    "graphql-iso-date": "^3.6.1",
+    "graphql-scalars": "^1.0.1",
+    "graphql-subscriptions": "^1.1.0",
+    "graphql-tag": "^2.10.1",
+    "graphql-tools": "^4.0.5",
+    "graphql-type-json": "^0.3.0",
+    "js-string-escape": "^1.0.1",
+    "json5": "^2.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
+    "lib": "^4.0.5",
+    "libphonenumber-js": "^1.7.24",
+    "lodash": "^4.17.11",
+    "lodash.isequal": "^4.5.0",
+    "logdown": "^3.2.8",
+    "nock": "^11.3.4",
+    "node-fetch": "^2.6.0",
+    "paho-mqtt": "^1.1.0",
+    "pkg-up": "^3.1.0",
+    "serverless": "^1.52.0",
+    "uuid": "^3.3.3",
+    "velocityjs": "^1.1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "babel-core": "^6.26.3",
-    "babel-jest": "^24.8.0",
     "husky": "^2.3.0",
     "jest": "^24.8.0"
   },

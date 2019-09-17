@@ -1,28 +1,33 @@
-serverless-appsync-offline
-=================================
+# serverless-appsync-offline
 
 [![npm version](https://badge.fury.io/js/serverless-appsync-offline.svg)](https://badge.fury.io/js/serverless-appsync-offline)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This is a wrapper for the excellent [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless).
 
+*Update:*Since the AppSync Emulator is deprecated (acquired by AWS to embed in Amplify) I have merged the two together for future serverless appsync development.
+
 ## This Plugin Requires
-* serverless@v1-rc.1
+
+- serverless@v1-rc.1
 
 ## Features
-* Emulate Appsync with [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless) and depends on [Serverless-AppSync-Plugin](https://github.com/sid88in/serverless-appsync-plugin)
-* Connect to any DynamoDB or install DynamoDB Local
-* Start DynamoDB Local with all the parameters supported (e.g port, inMemory, sharedDb)
-* Table Creation for DynamoDB Local
+
+- Emulate Appsync with [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless) and depends on [Serverless-AppSync-Plugin](https://github.com/sid88in/serverless-appsync-plugin)
+- Connect to any DynamoDB or install DynamoDB Local
+- Start DynamoDB Local with all the parameters supported (e.g port, inMemory, sharedDb)
+- Table Creation for DynamoDB Local
 
 This plugin is updated by its users, I just do maintenance and ensure that PRs are relevant to the community. In other words, if you [find a bug or want a new feature](https://github.com/aheissenberger/serverless-appsync-offline/issues), please help us by becoming one of the contributors.
 
-## 
+##
 
 ## Install Plugin
+
 `npm install --save serverless-appsync-offline`
 
 Then in `serverless.yml` add following entry to the plugins array: `serverless-appsync-offline`
+
 ```yml
 plugins:
   - serverless-appsync-offline
@@ -30,11 +35,7 @@ plugins:
 
 ## Using the Plugin
 
-
-1) Add Appsync Resource definitions to your Serverless configuration, as defined here: https://github.com/sid88in/serverless-appsync-plugin#configuring-the-plugin
-
-
-
+1. Add Appsync Resource definitions to your Serverless configuration, as defined here: https://github.com/sid88in/serverless-appsync-plugin#configuring-the-plugin
 
 ## Start appsync-offline
 
@@ -55,6 +56,7 @@ All CLI options are optional:
 All the above options can be added to serverless.yml to set default configuration: e.g.
 
 **Minimum Options:**
+
 ```yml
 custom:
   appsync-offline:
@@ -63,7 +65,9 @@ custom:
       server:
         port: 8000
 ```
+
 **All Options:**
+
 ```yml
 custom:
   appsync-offline:
@@ -71,13 +75,13 @@ custom:
     dynamodb:
       client:
         # if endpoint is provided, no local database server is started and and appsync connects to the endpoint - e.g. serverless-dynamodb-local
-        endpoint: "http://localhost:8000"
+        endpoint: 'http://localhost:8000'
         region: localhost
         accessKeyId: a
         secretAccessKey: a
       server:
         port: 8000
-        dbPath: "./.dynamodb"
+        dbPath: './.dynamodb'
         inMemory: false,
         sharedDb: false,
         delayTransientStatuses: false,
@@ -85,6 +89,7 @@ custom:
 ```
 
 **How to Query:**
+
 ```sh
 curl -X POST \
   http://localhost:62222/graphql \
@@ -98,19 +103,24 @@ curl -X POST \
 _**Note**: If you're using `API_KEY` as your authenticationType, then a `x-api-key` header has to be present in the request. The value of the key doesn't really matter._
 
 ## Using DynamoDB Local in your code
+
 You need to add the following parameters to the AWS NODE SDK dynamodb constructor
 
 e.g. for dynamodb document client sdk
+
 ```
 var AWS = require('aws-sdk');
 ```
+
 ```
 new AWS.DynamoDB.DocumentClient({
     region: 'localhost',
     endpoint: 'http://localhost:8000'
 })
 ```
+
 e.g. for dynamodb document client sdk
+
 ```
 new AWS.DynamoDB({
     region: 'localhost',
@@ -119,12 +129,13 @@ new AWS.DynamoDB({
 ```
 
 ### Using with serverless-offline plugin
+
 When using this plugin with serverless-offline, it is difficult to use above syntax since the code should use DynamoDB Local for development, and use DynamoDB Online after provisioning in AWS. Therefore we suggest you to use [serverless-dynamodb-client](https://github.com/99xt/serverless-dynamodb-client) plugin in your code.
 
 The `serverless appsync-offline start` command can be triggered automatically when using `serverless-offline` plugin.
 
-
 Add both plugins to your `serverless.yml` file:
+
 ```yaml
 plugins:
   - serverless-appsync-offline
@@ -143,11 +154,12 @@ or
 
 `SLS_DEBUG=* NODE_DEBUG=appsync-* yarn sls appsync-offline start`
 
-
 ### Using with serverless-offline and serverless-webpack plugin
+
 Run `serverless offline start`. In comparison with `serverless offline`, the `start` command will fire an `init` and a `end` lifecycle hook which is needed for serverless-offline and serverless-appsync-offline to switch off both resources.
 
 Add plugins to your `serverless.yml` file:
+
 ```yaml
 plugins:
   - serverless-webpack
@@ -163,7 +175,8 @@ custom:
 
 ## Notes
 
-The [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless) does not support CloudFormation syntax (e.g. `tableName: { Ref: UsersTable }`) in `dataSources`. 
+The [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless) does not support CloudFormation syntax (e.g. `tableName: { Ref: UsersTable }`) in `dataSources`.
 
 ## License
-  [MIT](LICENSE)
+
+[MIT](LICENSE)

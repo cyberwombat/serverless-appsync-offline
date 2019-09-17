@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "jest": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "rules": {
+    "no-unused-vars": 1
+  }
+}

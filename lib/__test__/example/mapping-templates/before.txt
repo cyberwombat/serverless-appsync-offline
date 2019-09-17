@@ -1,0 +1,2 @@
+$util.qr($ctx.stash.put("beforeMessage", "this message come from before template"))
+{}

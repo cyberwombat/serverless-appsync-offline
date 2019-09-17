@@ -1,0 +1,8 @@
+- type: Query
+  field: testPipelineQuery
+  request: 'before.txt' 
+  response: 'after.txt' 
+  kind: PIPELINE
+  functions:
+    - authorizeFunction
+    - fetchDataFunction

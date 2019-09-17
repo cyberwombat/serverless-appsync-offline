@@ -1,0 +1,139 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Query {
+  QuoteRequestById(id: ID!): QuoteRequest
+  QuoteRequest(query: [AttributeFilter]): [QuoteRequest]!
+  QuoteResponseById(id: ID!): QuoteResponse
+  QuoteResponse(query: [AttributeFilter]): [QuoteResponse]!
+  cognitoInfo: CognitoInfo!
+  lambda: LambdaInfo!
+  lambdaBatch: [LambdaInfo]
+  lambdaPython: LambdaInfo!
+  lambdaRuby: LambdaInfo!
+  lambdaGo: LambdaInfo!
+  error: Boolean
+  httpUsers: [httpUser]
+  jsonTest: AWSJSON
+  dateTest(dateTest: String): AWSDate
+  timeTest(timeTest: String): AWSTime
+  dateTimeTest(dateTimeTest: String): AWSDateTime
+  dateTestInput(dateTestInput: AWSDate): String
+  timeTestInput(timeTestInput: AWSTime): String
+  dateTimeTestInput(dateTimeTestInput: AWSDateTime): String
+  emailTest(emailTest: String): AWSEmail
+  phoneTest(phoneTest: String): AWSPhone
+  urlTest(urlTest: String): AWSURL
+  search(text: String!): [ESSearchResult]
+  stashTest(name: String!): LambdaInfo!
+  getPipelinePlayground: PipelinePlayground!
+}
+
+type PipelinePlayground {
+  beforeTemplateMessage: String!
+  firstFunctionMessage: String!
+  secondFunctionMessage: String!
+  afterTemplateMessage: String!
+}
+
+type httpUser {
+  name: String
+  posts: [Post]
+}
+
+type Post {
+  title: String
+}
+
+type Mutation {
+  batchPutQuotes(
+    request: QuoteRequestInput!,
+    response: QuoteResponseInput!
+  ): BatchPut!
+  badBatchPutQuotes(
+    request: QuoteRequestInput!,
+    response: QuoteResponseInput!
+  ): BatchPut!
+  putQuoteRequest(id: ID, input: QuoteRequestInput!): QuoteRequest!
+  updateQuoteRequest(id: ID!, input: QuoteRequestInput!): QuoteRequest!
+  deleteQuoteRequest(id: ID!): Boolean
+  putQuoteResponse(id: ID, input: QuoteResponseInput!): QuoteResponse!
+  updateQuoteResponse(id: ID!, input: QuoteResponseInput!): QuoteResponse!
+  deleteQuoteResponse(id: ID!): Boolean
+  neverNotify(id: String): String!
+}
+
+type Subscription {
+  subscribeToPutQuoteRequest: QuoteRequest!
+    @aws_subscribe(mutations: ["putQuoteRequest"])
+  subscribeToPutQuoteResponse: QuoteResponse!
+    @aws_subscribe(mutations: ["putQuoteResponse"])
+  neverNotify: String!
+    @aws_subscribe(mutations: ["neverNotify"])
+  subscribeWithRequiredArgument(commodity: String!): QuoteRequest!
+    @aws_subscribe(mutations: ["putQuoteRequest"])
+  subscribeWithOptionalArgument(commodity: String): QuoteRequest!
+    @aws_subscribe(mutations: ["putQuoteRequest"])
+  subscribeWithBothArgumentTypes(commodity: String!, amount: Float): QuoteRequest!
+    @aws_subscribe(mutations: ["putQuoteRequest"])
+}
+
+type BatchPut {
+  request: QuoteRequest!
+  response: QuoteResponse!
+}
+
+type CognitoInfo {
+  sub: String!
+  issuer: String!
+  username: String!
+  # XXX: Can't test claims...
+  sourceIp: [String!]!
+  defaultAuthStrategy: String!
+}
+
+type LambdaInfo {
+  test: String!
+  lambdaChild: [LambdaInfo]
+  stash: String
+}
+
+type QuoteRequest {
+  id: ID!
+  commodity: String
+  amount: Float
+  tags: [String]
+  stash: String
+}
+
+type ESSearchResult {
+    title: String
+    content: String
+}
+
+input QuoteRequestInput {
+  commodity: String
+  amount: Float
+  tags: [String]
+}
+
+type QuoteResponse {
+  id: ID!
+  offer: String
+  expires: Float
+}
+
+input QuoteResponseInput {
+  offer: String
+  expires: Float
+}
+
+input AttributeFilter {
+  expression: String!
+  expressionName: String!
+  expressionNumberValue: Float
+  expressionStringValue: String
+}

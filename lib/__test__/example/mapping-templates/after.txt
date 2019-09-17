@@ -1,0 +1,2 @@
+#set($ctx.result.afterTemplateMessage = "After template message")
+$util.toJson($ctx.result)

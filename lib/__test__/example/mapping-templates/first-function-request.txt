@@ -1,0 +1,6 @@
+{
+    "payload": {
+        "beforeTemplateMessage": "${ctx.stash.get("beforeMessage")}", 
+        "firstPipelineMessage": "this message come from first function",
+    }
+}
