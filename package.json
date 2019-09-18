@@ -76,7 +76,7 @@
     "jest": "^24.8.0",
     "prettier": "^1.18.2"
   },
-  "husky": {
+  "DISABLEhusky": {
     "hooks": {
       "pre-push": "yarn jest --ci --silent"
     }
