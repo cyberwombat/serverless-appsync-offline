@@ -1,4 +1,4 @@
-const { deriveDynamoDBClient } = require('../dynamodbUtil');
+const { deriveDynamoDBClient } = require('../lib/dynamodbUtil');
 
 describe('dynamoUtil', () => {
   beforeAll(async () => {

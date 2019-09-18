@@ -1,4 +1,4 @@
-const { vtl, javaify } = require('../vtl');
+const { vtl, javaify } = require('../lib/vtl');
 
 describe('vtl', () => {
   describe('array', () => {

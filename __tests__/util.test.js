@@ -4,8 +4,8 @@ const {
   TemplateSentError,
   CustomTemplateException,
   getAppSyncConfig,
-} = require('../util');
-const { javaify } = require('../vtl');
+} = require('../lib/util');
+const { javaify } = require('../lib/vtl');
 
 describe('util', () => {
   const now = new Date(2010, 1, 1);

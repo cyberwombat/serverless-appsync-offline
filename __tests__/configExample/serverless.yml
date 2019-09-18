@@ -11,12 +11,12 @@ custom:
   assetsTable: ${self:custom.service}-Assets-${opt:stage, 'dev'}
   appSync:
     mappingTemplates:
-      - ${file(./test-mapping-a.yml)}
-      - ${file(./test-mapping-b.yml)}
-      - ${file(./test-mapping-pipeline.yml)}
+      - ${file(./lib/test-mapping-a.yml)}
+      - ${file(./lib/test-mapping-b.yml)}
+      - ${file(./lib/test-mapping-pipeline.yml)}
     dataSources:
-      - ${file(./test-data-source-a.yml)}
-      - ${file(./test-data-source-b.yml)}
+      - ${file(./lib/test-data-source-a.yml)}
+      - ${file(./lib/test-data-source-b.yml)}
     functionConfigurations:
       - dataSource: graphqlLambda
         name: 'authorizeFunction'

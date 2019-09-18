@@ -1,4 +1,4 @@
-const { loadServerlessConfig } = require('../loadServerlessConfig');
+const { loadServerlessConfig } = require('../lib/loadServerlessConfig');
 
 describe('loadServerlessConfig', () => {
   it('should parse templates and variables', async () => {

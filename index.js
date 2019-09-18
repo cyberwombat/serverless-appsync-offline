@@ -82,6 +82,7 @@ class ServerlessAppSyncPlugin {
       if (this.options.dynamodb.client.endpoint) {
         const { DynamoDB } = require('aws-sdk')
         dynamodb = new DynamoDB(this.options.dynamodb.client)
+        this.serverlessLog('Using existing DynamoDB instance')
       } else {
         // start the dynamodb emulator
         const dynamoEmulator = require('@conduitvc/dynamodb-emulator')
@@ -97,6 +98,7 @@ class ServerlessAppSyncPlugin {
       }
 
       const port = this.options.port
+
       // from "custom.appSync.schema" for custom graphQL schema file location
       const schemaPath = this.options.schema
       const server = await createServer({
@@ -105,6 +107,7 @@ class ServerlessAppSyncPlugin {
         port,
         dynamodb
       })
+
       this.serverlessLog('AppSync started: ' + server.url)
       if (!isStandalone) this._listenForTermination()
       return server

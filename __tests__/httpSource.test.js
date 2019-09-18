@@ -1,5 +1,5 @@
 const nock = require('nock');
-const httpSource = require('../httpSource');
+const httpSource = require('../lib/httpSource');
 
 describe('httpSource', () => {
   beforeEach(() => {

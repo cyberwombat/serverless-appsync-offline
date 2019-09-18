@@ -2,7 +2,7 @@ const path = require('path');
 const { fork } = require('child_process');
 const e2p = require('event-to-promise');
 
-const PythonRunner = path.join(__dirname, '../lambdaRunnerPython');
+const PythonRunner = path.join(__dirname, '../lib/lambdaRunnerPython');
 
 const run = ({ handlerMethod, payload = {} }) => {
   const child = fork(PythonRunner, [], {

@@ -2,7 +2,7 @@ const { inspect } = require('util');
 const {
   create: createTestServer,
   connect: connectTestServer,
-} = require('../tester');
+} = require('../lib/tester');
 const gql = require('graphql-tag');
 
 const { AWSAppSyncClient } = require('aws-appsync');

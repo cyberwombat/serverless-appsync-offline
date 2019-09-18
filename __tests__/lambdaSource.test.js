@@ -1,5 +1,5 @@
 const childProcess = require('child_process');
-const lambdaSource = require('../lambdaSource');
+const lambdaSource = require('../lib/lambdaSource');
 const e2p = require('event-to-promise');
 
 jest.mock('child_process');

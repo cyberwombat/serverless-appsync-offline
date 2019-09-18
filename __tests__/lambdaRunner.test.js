@@ -2,7 +2,7 @@ const path = require('path');
 const { fork } = require('child_process');
 const e2p = require('event-to-promise');
 
-const Runner = path.join(__dirname, '../lambdaRunner');
+const Runner = path.join(__dirname, '../lib/lambdaRunner');
 
 const run = ({ handlerMethod, payload = {} }) => {
   const child = fork(Runner, [], {
@@ -10,8 +10,8 @@ const run = ({ handlerMethod, payload = {} }) => {
   });
 
   child.send({
-    module: './__test__/lambdaFunctions',
-    handlerPath: './__test__/lambdaFunctions',
+    module: './lib/__test__/lambdaFunctions',
+    handlerPath: './lib/__test__/lambdaFunctions',
     handlerMethod,
     payload,
   });

@@ -41,7 +41,6 @@
     "cors": "^2.8.5",
     "dataloader": "^1.4.0",
     "dateformat": "^3.0.3",
-    "eslint-plugin-prettier": "^3.1.0",
     "event-to-promise": "^0.8.0",
     "express": "^4.17.1",
     "faker": "^4.1.0",
@@ -70,8 +69,12 @@
     "velocityjs": "^1.1.4"
   },
   "devDependencies": {
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "husky": "^2.3.0",
-    "jest": "^24.8.0"
+    "jest": "^24.8.0",
+    "prettier": "^1.18.2"
   },
   "husky": {
     "hooks": {

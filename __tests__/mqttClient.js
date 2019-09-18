@@ -1,5 +1,5 @@
 const { EventEmitter } = require('events');
-const Paho = require('../paho');
+const Paho = require('../lib/paho');
 
 class MQTTClient extends EventEmitter {
   constructor(clientId) {

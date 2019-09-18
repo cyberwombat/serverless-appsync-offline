@@ -1,6 +1,6 @@
-const { createSchema } = require('../schemaTest');
+const { createSchema } = require('../lib/schemaTest');
 const { graphql } = require('graphql');
-const { decoded: jwt } = require('../testJWT');
+const { decoded: jwt } = require('../lib/testJWT');
 const nock = require('nock');
 const dynamodbEmulator = require('@conduitvc/dynamodb-emulator/client');
 

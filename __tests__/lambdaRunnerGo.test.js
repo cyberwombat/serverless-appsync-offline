@@ -2,7 +2,7 @@ const path = require('path');
 const { fork } = require('child_process');
 const e2p = require('event-to-promise');
 
-const GoRunner = path.join(__dirname, '../lambdaRunnerGo');
+const GoRunner = path.join(__dirname, '../lib/lambdaRunnerGo');
 
 const run = ({ handlerMethod, payload = {} }) => {
   const child = fork(GoRunner, [], {

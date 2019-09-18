@@ -2,7 +2,7 @@ const path = require('path');
 const { fork } = require('child_process');
 const e2p = require('event-to-promise');
 
-const RubyRunner = path.join(__dirname, '../lambdaRunnerRuby');
+const RubyRunner = path.join(__dirname, '../lib/lambdaRunnerRuby');
 
 const run = ({ handlerMethod, payload = {} }) => {
   const child = fork(RubyRunner, [], {

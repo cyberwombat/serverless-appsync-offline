@@ -1,7 +1,7 @@
-const elasticsearchSource = require('../elasticsearchSource');
+const elasticsearchSource = require('../lib/elasticsearchSource');
 
-jest.mock('../httpSource', () => jest.fn().mockResolvedValue({ body: '{}' }));
-const httpSource = require('../httpSource');
+jest.mock('../lib/httpSource', () => jest.fn().mockResolvedValue({ body: '{}' }));
+const httpSource = require('../lib/httpSource');
 
 beforeEach(() => {
   httpSource.mockClear();

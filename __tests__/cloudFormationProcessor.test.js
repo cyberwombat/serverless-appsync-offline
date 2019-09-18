@@ -1,5 +1,5 @@
-const { loadServerlessConfig } = require('../loadServerlessConfig');
-const { cloudFormationProcessor } = require('../cloudFormationProcessor');
+const { loadServerlessConfig } = require('../lib/loadServerlessConfig');
+const { cloudFormationProcessor } = require('../lib/cloudFormationProcessor');
 
 describe('cloudFormationProcessor', () => {
   const serverlessDir = `${__dirname}/example/`;
