@@ -3,9 +3,9 @@
 [![npm version](https://badge.fury.io/js/serverless-appsync-offline.svg)](https://badge.fury.io/js/serverless-appsync-offline)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is a wrapper for the excellent [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless).
+Offline AppSync Emulator for Serverless with Pipeline support.
 
-*Update:*Since the AppSync Emulator is deprecated (acquired by AWS to embed in Amplify) I have merged the two together for future serverless appsync development.
+This code is a merge of the now deprecated [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless) (acquired by AWS to embed in Amplify) as well as the original serverless (plugin)[https://github.com/aheissenberger/serverless-appsync-offline]
 
 ## This Plugin Requires
 
@@ -18,19 +18,17 @@ This is a wrapper for the excellent [AppSync Emulator](https://github.com/Condui
 - Start DynamoDB Local with all the parameters supported (e.g port, inMemory, sharedDb)
 - Table Creation for DynamoDB Local
 
-This plugin is updated by its users, I just do maintenance and ensure that PRs are relevant to the community. In other words, if you [find a bug or want a new feature](https://github.com/aheissenberger/serverless-appsync-offline/issues), please help us by becoming one of the contributors.
-
-##
-
 ## Install Plugin
 
-`npm install --save serverless-appsync-offline`
+Not on npm for now but you can pull from repo.
+
+`yarn add https://github.com/cyberwombat/serverless-offline-appsync`
 
 Then in `serverless.yml` add following entry to the plugins array: `serverless-appsync-offline`
 
 ```yml
 plugins:
-  - serverless-appsync-offline
+  - serverless-offline-appsync
 ```
 
 ## Using the Plugin
@@ -148,11 +146,7 @@ Now your local Appsync and the DynamoDB database will be automatically started b
 
 ### Debugging
 
-`SLS_DEBUG=* NODE_DEBUG=appsync-* yarn offline`
-
-or
-
-`SLS_DEBUG=* NODE_DEBUG=appsync-* yarn sls appsync-offline start`
+`APPSYNC_EMULATOR_LOG=true yarn sls appsync-offline start`
 
 ### Using with serverless-offline and serverless-webpack plugin
 
