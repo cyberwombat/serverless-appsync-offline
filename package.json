@@ -6,7 +6,7 @@
   "engines": {
     "node": ">=8"
   },
-  "repository": "git@github.com:cyberwombat/serverless-appsync-offline.git",
+  "repository": "git@github.com:cyberwombat/serverless-offline-appsync.git",
   "contributors": [
     "Yashua Savage <contact@enradia.com",
     "Andreas Heissenberger <andreas@heissenberger.at>"
@@ -66,7 +66,7 @@
     "pkg-up": "^3.1.0",
     "serverless": "^1.52.0",
     "uuid": "^3.3.3",
-    "velocityjs": "^1.1.4"
+    "velocityjs": "2.0.0"
   },
   "devDependencies": {
     "eslint": "^6.4.0",
