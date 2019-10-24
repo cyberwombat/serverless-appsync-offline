@@ -18,6 +18,8 @@ This code is a merge of the now deprecated [AppSync Emulator](https://github.com
 - Start DynamoDB Local with all the parameters supported (e.g port, inMemory, sharedDb)
 - Table Creation for DynamoDB Local
 
+If you have a local Elasticsearch instance running you can override the ES endpoint defined in sources with your local intance URI.
+
 ## Install Plugin
 
 Not on npm for now but you can pull from repo.
@@ -43,6 +45,7 @@ All CLI options are optional:
 
 ```
 --port  		  -p  Port to provide the graphgl api. Default: dynamic
+--elasticEndpoint            -e Override Elasticsearch endpoint set in resolvers
 --dynamoDbPort            -d  Port to access the dynamoDB. Default: dynamic
 --inMemory                -i  DynamoDB; will run in memory, instead of using a database file. When you stop DynamoDB;, none of the data will be saved. Note that you cannot specify both -dbPath and -inMemory at once.
 --dbPath                  -b  The directory where DynamoDB will write its database file. If you do not specify this option, the file will be written to the current directory. Note that you cannot specify both -dbPath and -inMemory at once. For the path, current working directory is <projectroot>/node_modules/serverless-appsync-offline/dynamob. For example to create <projectroot>/node_modules/serverless-appsync-offline/dynamob/<mypath> you should specify -d <mypath>/ or --dbPath <mypath>/ with a forwardslash at the end.
@@ -70,6 +73,8 @@ custom:
 custom:
   appsync-offline:
     port: 62222
+    elastic:
+      endpoint: 'http://localhost:9200'
     dynamodb:
       client:
         # if endpoint is provided, no local database server is started and and appsync connects to the endpoint - e.g. serverless-dynamodb-local

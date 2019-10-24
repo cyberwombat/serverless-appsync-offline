@@ -23,6 +23,11 @@ class ServerlessAppSyncPlugin {
                 usage:
                   'The port number that appsync will use to provide the graphql access point. If you do not specify this option, the default port is dynamic'
               },
+              elasticEndpoint: {
+                shortcut: 'e',
+                usage:
+                  'The endpoint for Elasticseaarch. If you do not specify this option, the default endpoint is http://localhost:9200'
+              },
               dynamoDbPort: {
                 shortcut: 'd',
                 usage:
@@ -105,7 +110,8 @@ class ServerlessAppSyncPlugin {
         serverless: this.serverless,
         schemaPath,
         port,
-        dynamodb
+        dynamodb,
+        elastic: this.options.elastic || {}
       })
 
       this.serverlessLog('AppSync started: ' + server.url)
@@ -143,6 +149,9 @@ class ServerlessAppSyncPlugin {
     //this.serverlessLog(JSON.stringify(this.options));
     const defaultOpts = {
       port: null,
+      elastic: {
+        endpoint: 'http://localhost:9200'
+      },
       dynamodb: {
         client: {
           region: 'localhost',
@@ -162,6 +171,9 @@ class ServerlessAppSyncPlugin {
       (this.serverless.service.custom || {})['appsync-offline'],
       {
         port: this.options.port,
+        elastic: {
+          endpoint: this.options.elasticEndpoint
+        },
         dynamodb: {
           server: {
             port: this.options.dynamoDbPort,
