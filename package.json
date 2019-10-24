@@ -59,7 +59,6 @@
     "libphonenumber-js": "^1.7.24",
     "lodash": "^4.17.11",
     "lodash.isequal": "^4.5.0",
-    "logdown": "^3.2.8",
     "nock": "^11.3.4",
     "node-fetch": "^2.6.0",
     "paho-mqtt": "^1.1.0",
