@@ -60,7 +60,7 @@ class ServerlessAppSyncPlugin {
               },
               preferredSchema: {
                 shortcut: 's',
-                usage: 'Schema array index to use for multiple schema handling.'
+                usage: 'Schema name to use for multiple schema handling.'
               }
             }
           }
@@ -108,15 +108,9 @@ class ServerlessAppSyncPlugin {
 
       const port = this.options.port
 
-      const preferredSchema = this.options.preferredSchema || 0
-
-      const schemaPath = Array.isArray(this.options.schema)
-        ? this.options.schema[preferredSchema]
-        : this.options.schema
-
       const server = await createServer({
         serverless: this.serverless,
-        schemaPath,
+        schemaPath: this.options.schema,
         port,
         dynamodb,
         elastic: this.options.elastic || {}
@@ -174,30 +168,51 @@ class ServerlessAppSyncPlugin {
       }
     }
 
-    let appSyncOptions = (this.serverless.service.custom || {})[
-      'appsync-offline'
+    let appSyncOptions = (this.serverless.service.custom || {})['appSync']
+    let appSyncOfflineOptions = (this.serverless.service.custom || {})[
+      'appSyncOffline'
     ]
 
-    let schemaPath = {
-      schema: this.options.schemaPath || appSyncOptions.schema
+    const preferredSchema =
+      this.options.preferredSchema || appSyncOfflineOptions.schema
+
+    const multipleSchemas = typeof appSyncOptions === 'object'
+    if (multipleSchemas && !preferredSchema) {
+      this.serverlessLog(
+        'ERROR: A schema option must be provided (ex: -s api) when using multiple APIs'
+      )
+      process.exit(1)
     }
 
-    this.options = _.merge({}, defaultOpts, appSyncOptions, schemaPath, {
-      port: this.options.port,
-      elastic: {
-        endpoint: this.options.elasticEndpoint
+    let schemaPath = multipleSchemas
+      ? appSyncOptions.find(({ name }) => name === this.options.preferredSchema)
+          .schema
+      : schema
+
+    this.options = _.merge(
+      {},
+      defaultOpts,
+      appSyncOfflineOptions,
+      {
+        schema: schemaPath || path.join(serverlessDirectory, 'schema.graphql')
       },
-      dynamodb: {
-        server: {
-          port: this.options.dynamoDbPort,
-          dbPath: this.options.dbPath,
-          inMemory: this.options.inMemory,
-          sharedDb: this.options.sharedDb,
-          delayTransientStatuses: this.options.delayTransientStatuses,
-          optimizeDbBeforeStartup: this.options.optimizeDbBeforeStartup
+      {
+        port: this.options.port,
+        elastic: {
+          endpoint: this.options.elasticEndpoint
+        },
+        dynamodb: {
+          server: {
+            port: this.options.dynamoDbPort,
+            dbPath: this.options.dbPath,
+            inMemory: this.options.inMemory,
+            sharedDb: this.options.sharedDb,
+            delayTransientStatuses: this.options.delayTransientStatuses,
+            optimizeDbBeforeStartup: this.options.optimizeDbBeforeStartup
+          }
         }
       }
-    })
+    )
   }
 
   _listenForTermination() {

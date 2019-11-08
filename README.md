@@ -37,6 +37,8 @@ plugins:
 
 1. Add Appsync Resource definitions to your Serverless configuration, as defined here: https://github.com/sid88in/serverless-appsync-plugin#configuring-the-plugin
 
+The offline plugin will look in the AppSync definition for schema file(s). Multiple APIs aere supported by either providing the API name using either the config `schema` option or the command line `preferredSchema` parameter. If no option is passed it will use either the schema defined in AppSync or fallback to `schema.graphql` in the project root.
+
 ## Start appsync-offline
 
 `sls appsync-offline start`
@@ -52,6 +54,7 @@ All CLI options are optional:
 --sharedDb                -h  DynamoDB will use a single database file, instead of using separate files for each credential and region. If you specify -sharedDb, all DynamoDB clients will interact with the same set of tables regardless of their region and credential configuration.
 --delayTransientStatuses  -t  Causes DynamoDB to introduce delays for certain operations. DynamoDB can perform some tasks almost instantaneously, such as create/update/delete operations on tables and indexes; however, the actual DynamoDB service requires more time for these tasks. Setting this parameter helps DynamoDB simulate the behavior of the Amazon DynamoDB web service more closely. (Currently, this parameter introduces delays only for global secondary indexes that are in either CREATING or DELETING status.)
 --optimizeDbBeforeStartup -o  Optimizes the underlying database tables before starting up DynamoDB on your computer. You must also specify -dbPath when you use this parameter.
+--preferredSchema: name of api in AppSync options for multiple APIs
 ```
 
 All the above options can be added to serverless.yml to set default configuration: e.g.
@@ -60,7 +63,7 @@ All the above options can be added to serverless.yml to set default configuratio
 
 ```yml
 custom:
-  appsync-offline:
+  appSyncOffline:
     port: 62222
     dynamodb:
       server:
@@ -71,8 +74,9 @@ custom:
 
 ```yml
 custom:
-  appsync-offline:
+  appSyncOffline:
     port: 62222
+    schema: 'admin' # Name of api when using multiple APIs in AppSync options
     elastic:
       endpoint: 'http://localhost:9200'
     dynamodb:
