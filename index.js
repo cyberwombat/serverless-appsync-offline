@@ -57,6 +57,10 @@ class ServerlessAppSyncPlugin {
                 shortcut: 'o',
                 usage:
                   'Optimizes the underlying database tables before starting up DynamoDB on your computer. You must also specify -dbPath when you use this parameter.'
+              },
+              preferredSchema: {
+                shortcut: 's',
+                usage: 'Schema array index to use for multiple schema handling.'
               }
             }
           }
@@ -104,8 +108,12 @@ class ServerlessAppSyncPlugin {
 
       const port = this.options.port
 
-      // from "custom.appSync.schema" for custom graphQL schema file location
-      const schemaPath = this.options.schema
+      const preferredSchema = this.options.preferredSchema || 0
+
+      const schemaPath = Array.isArray(this.options.schema)
+        ? this.options.schema[preferredSchema]
+        : this.options.schema
+
       const server = await createServer({
         serverless: this.serverless,
         schemaPath,
@@ -165,27 +173,31 @@ class ServerlessAppSyncPlugin {
         }
       }
     }
-    this.options = _.merge(
-      {},
-      defaultOpts,
-      (this.serverless.service.custom || {})['appsync-offline'],
-      {
-        port: this.options.port,
-        elastic: {
-          endpoint: this.options.elasticEndpoint
-        },
-        dynamodb: {
-          server: {
-            port: this.options.dynamoDbPort,
-            dbPath: this.options.dbPath,
-            inMemory: this.options.inMemory,
-            sharedDb: this.options.sharedDb,
-            delayTransientStatuses: this.options.delayTransientStatuses,
-            optimizeDbBeforeStartup: this.options.optimizeDbBeforeStartup
-          }
+
+    let appSyncOptions = (this.serverless.service.custom || {})[
+      'appsync-offline'
+    ]
+
+    let schemaPath = {
+      schema: this.options.schemaPath || appSyncOptions.schema
+    }
+
+    this.options = _.merge({}, defaultOpts, appSyncOptions, schemaPath, {
+      port: this.options.port,
+      elastic: {
+        endpoint: this.options.elasticEndpoint
+      },
+      dynamodb: {
+        server: {
+          port: this.options.dynamoDbPort,
+          dbPath: this.options.dbPath,
+          inMemory: this.options.inMemory,
+          sharedDb: this.options.sharedDb,
+          delayTransientStatuses: this.options.delayTransientStatuses,
+          optimizeDbBeforeStartup: this.options.optimizeDbBeforeStartup
         }
       }
-    )
+    })
   }
 
   _listenForTermination() {
