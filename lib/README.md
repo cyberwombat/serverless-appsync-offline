@@ -8,24 +8,24 @@ It is possible to use this emulator without serverless by mirroring the structur
 
 We aim to support the majority of appsync features (as we use all of them except elastic search).
 
-* Lambda source (only tested with serverless functions, including Node, Python)
-* DynamoDB source (batch operations, all single table operations, etc.)
-* HTTP(S) source
-* NONE source
-* Full VTL support ($util) and compatibility with Java stdlib
-* Support for `API_KEY` and `AMAZON_COGNITO_USER_POOLS` authentication
-* Subscriptions
+- Lambda source (only tested with serverless functions, including Node, Python)
+- DynamoDB source (batch operations, all single table operations, etc.)
+- HTTP(S) source
+- NONE source
+- Full VTL support (\$util) and compatibility with Java stdlib
+- Support for `API_KEY` and `AMAZON_COGNITO_USER_POOLS` authentication
+- Subscriptions
 
 ## Known Deviations from AppSync
 
 This sections lists known deviations from AppSync behaviour
 
-* VTL String.split: AppSync Emulator is using JavaScript's regex engine which does not support
+- VTL String.split: AppSync Emulator is using JavaScript's regex engine which does not support
   look-behind. There might be other more subtle differences in the regex implementations.
 
 ## Requirements
 
-* Java\*
+- Java\*
 
 \*If installing DynamoDB Local.
 
@@ -147,25 +147,25 @@ custom:
 We extensively use jest so bundle a jest specific helper (which likely will work for mocha as well).
 
 ```js
-const gql = require('graphql-tag');
-const { AWSAppSyncClient } = require('aws-appsync');
+const gql = require('graphql-tag')
+const { AWSAppSyncClient } = require('aws-appsync')
 
 // we export a specific module for testing.
-const createAppSync = require('@conduitvc/appsync-emulator-serverless/jest');
+const createAppSync = require('@conduitvc/appsync-emulator-serverless/jest')
 // required by apollo-client
-global.fetch = require('node-fetch');
+global.fetch = require('node-fetch')
 
 describe('graphql', () => {
-  const appsync = createAppSync();
+  const appsync = createAppSync()
 
   it('Type.resolver', async () => {
     await appsync.client.query({
       query: gql`
         ....
-      `,
-    });
-  });
-});
+      `
+    })
+  })
+})
 ```
 
 ### generic.
@@ -173,19 +173,19 @@ describe('graphql', () => {
 (Below example is jest but any framework will work)
 
 ```js
-const gql = require('graphql-tag');
-const { AWSAppSyncClient } = require('aws-appsync');
+const gql = require('graphql-tag')
+const { AWSAppSyncClient } = require('aws-appsync')
 
 // we export a specific module for testing.
 const {
   create,
-  connect,
-} = require('@conduitvc/appsync-emulator-serverless/tester');
+  connect
+} = require('@conduitvc/appsync-emulator-serverless/tester')
 // required by apollo-client
-global.fetch = require('node-fetch');
+global.fetch = require('node-fetch')
 
 describe('graphql', () => {
-  let server, client;
+  let server, client
   beforeEach(async () => {
     // by default, ths create method will spin up a dynamodb emulator in memory using java
     // to utilize another dynamodb instance instead, pass in a valid dynamodbConfig to create:
@@ -199,23 +199,26 @@ describe('graphql', () => {
         }
       })
     */
-    server = await create();
-    client = connect(server, AWSAppSyncClient);
-  });
+    server = await create()
+    client = connect(
+      server,
+      AWSAppSyncClient
+    )
+  })
 
   // important to clear state.
-  afterEach(async () => server.close());
+  afterEach(async () => server.close())
   // very important not to leave java processes lying around.
-  afterAll(async () => server.terminate());
+  afterAll(async () => server.terminate())
 
   it('Type.resolver', async () => {
     await client.query({
       query: gql`
         ....
-      `,
-    });
-  });
-});
+      `
+    })
+  })
+})
 ```
 
 ### Python Lambda
@@ -237,28 +240,28 @@ Running a Python Lambda requires `sls` to be on your environment `$PATH`.
 If you need your lambda functions to interact with the local dynamoDB emulator:
 
 ```js
-const { DynamoDB } = require('aws-sdk');
+const { DynamoDB } = require('aws-sdk')
 
 const dynamodb = new DynamoDB({
   endpoint: process.env.DYNAMODB_ENDPOINT,
   region: 'us-fake-1',
   accessKeyId: 'fake',
-  secretAccessKey: 'fake',
-});
-const client = new DynamoDB.DocumentClient({ service: dynamodb });
+  secretAccessKey: 'fake'
+})
+const client = new DynamoDB.DocumentClient({ service: dynamodb })
 
 module.exports.myFn = async (event, context, callback) => {
-  const TableName = process.env[`DYNAMODB_TABLE_${YOURTABLENAME}`];
-  const { id } = event.arguments;
+  const TableName = process.env[`DYNAMODB_TABLE_${YOURTABLENAME}`]
+  const { id } = event.arguments
   const dynamoResult = await client
     .get({
       TableName,
-      Key: { id },
+      Key: { id }
     })
-    .promise();
+    .promise()
 
-  return dynamoResult;
-};
+  return dynamoResult
+}
 ```
 
 ### IAM

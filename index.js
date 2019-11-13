@@ -88,29 +88,31 @@ class ServerlessAppSyncPlugin {
     let dynamodb = null
 
     try {
-      if (this.options.dynamodb.client.endpoint) {
-        const { DynamoDB } = require('aws-sdk')
-        dynamodb = new DynamoDB(this.options.dynamodb.client)
-        this.serverlessLog('Using existing DynamoDB instance')
-      } else {
-        // start the dynamodb emulator
-        const dynamoEmulator = require('@conduitvc/dynamodb-emulator')
-        this.emulator = await dynamoEmulator.launch(
-          this.options.dynamodb.server
-        )
-        dynamodb = dynamoEmulator.getClient(
-          this.emulator,
-          this.options.dynamodb.client
-        )
-        this.serverlessLog('dynamoDB started: ' + dynamodb.endpoint.href)
-        //this.serverlessLog(JSON.stringify( dynamodb))
-      }
+      if (!this.options.dynamodb.client.endpoint)
+        throw new Error('Provide a DynamoDB endpoint')
+
+      const { DynamoDB } = require('aws-sdk')
+      dynamodb = new DynamoDB(this.options.dynamodb.client)
+      this.serverlessLog('Using existing DynamoDB instance')
+      // } else {
+      //   // start the dynamodb emulator
+      //   const dynamoEmulator = require('@conduitvc/dynamodb-emulator')
+      //   this.emulator = await dynamoEmulator.launch(
+      //     this.options.dynamodb.server
+      //   )
+      //   dynamodb = dynamoEmulator.getClient(
+      //     this.emulator,
+      //     this.options.dynamodb.client
+      //   )
+      //   this.serverlessLog('dynamoDB started: ' + dynamodb.endpoint.href)
+      //   //this.serverlessLog(JSON.stringify( dynamodb))
+      // }
 
       const port = this.options.port
 
       const server = await createServer({
         serverless: this.serverless,
-        schemaPath: this.options.schema,
+        selectApi: this.options.schema,
         port,
         dynamodb,
         elastic: this.options.elastic || {}
@@ -120,6 +122,7 @@ class ServerlessAppSyncPlugin {
       if (!isStandalone) this._listenForTermination()
       return server
     } catch (err) {
+      console.log(err)
       this.serverlessLog('ERROR: ' + err)
     }
   }
@@ -168,33 +171,16 @@ class ServerlessAppSyncPlugin {
       }
     }
 
-    let appSyncOptions = (this.serverless.service.custom || {})['appSync']
     let appSyncOfflineOptions = (this.serverless.service.custom || {})[
       'appSyncOffline'
     ]
-
-    const preferredSchema =
-      this.options.preferredSchema || appSyncOfflineOptions.schema
-
-    const multipleSchemas = typeof appSyncOptions === 'object'
-    if (multipleSchemas && !preferredSchema) {
-      this.serverlessLog(
-        'ERROR: A schema option must be provided (ex: -s api) when using multiple APIs'
-      )
-      process.exit(1)
-    }
-
-    let schemaPath = multipleSchemas
-      ? appSyncOptions.find(({ name }) => name === this.options.preferredSchema)
-          .schema
-      : schema
 
     this.options = _.merge(
       {},
       defaultOpts,
       appSyncOfflineOptions,
       {
-        schema: schemaPath || path.join(serverlessDirectory, 'schema.graphql')
+        schema: this.options.preferredSchema || appSyncOfflineOptions.schema
       },
       {
         port: this.options.port,

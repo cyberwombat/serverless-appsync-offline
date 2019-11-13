@@ -36,7 +36,7 @@
     "apollo-boost": "^0.4.4",
     "argparse": "^1.0.10",
     "aws-appsync": "^2.0.0",
-    "aws-sdk": "^2.463.0",
+    "aws-sdk": "^2.570.0",
     "consola": "^2.10.1",
     "cors": "^2.8.5",
     "dataloader": "^1.4.0",
