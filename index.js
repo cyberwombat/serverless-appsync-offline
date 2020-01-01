@@ -61,6 +61,11 @@ class ServerlessAppSyncPlugin {
               preferredSchema: {
                 shortcut: 's',
                 usage: 'Schema name to use for multiple schema handling.'
+              },
+              bootstrapScript: {
+                shortcut: 'x',
+                usage:
+                  'Path to bootstrap script - useful for launching mocks for example.'
               }
             }
           }
@@ -113,6 +118,7 @@ class ServerlessAppSyncPlugin {
       const server = await createServer({
         serverless: this.serverless,
         selectApi: this.options.schema,
+        bootstrapScript: this.options.bootstrap,
         port,
         dynamodb,
         elastic: this.options.elastic || {}
@@ -179,6 +185,10 @@ class ServerlessAppSyncPlugin {
       {},
       defaultOpts,
       appSyncOfflineOptions,
+      {
+        bootstrap:
+          this.options.bootstrapScript || appSyncOfflineOptions.bootstrap
+      },
       {
         schema: this.options.preferredSchema || appSyncOfflineOptions.schema
       },

@@ -5,7 +5,7 @@
 
 Offline AppSync Emulator for Serverless with Pipeline support.
 
-This code is a merge of the now deprecated [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless) (acquired by AWS to embed in Amplify) as well as the original serverless (plugin)[https://github.com/aheissenberger/serverless-appsync-offline]
+This code is a merge of the now deprecated [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appSyncOffline-serverless) (acquired by AWS to embed in Amplify) as well as the original serverless (plugin)[https://github.com/aheissenberger/serverless-appsync-offline]
 
 ## This Plugin Requires
 
@@ -13,7 +13,7 @@ This code is a merge of the now deprecated [AppSync Emulator](https://github.com
 
 ## Features
 
-- Emulate Appsync with [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless) and depends on [Serverless-AppSync-Plugin](https://github.com/sid88in/serverless-appsync-plugin)
+- Emulate Appsync with [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appSyncOffline-serverless) and depends on [Serverless-AppSync-Plugin](https://github.com/sid88in/serverless-appsync-plugin)
 - Connect to any DynamoDB or install DynamoDB Local
 - Start DynamoDB Local with all the parameters supported (e.g port, inMemory, sharedDb)
 - Table Creation for DynamoDB Local
@@ -170,7 +170,7 @@ plugins:
   - serverless-offline #serverless-offline needs to be last in the list
 
 custom:
-  appsync-emulator:
+  appSyncOffline:
     # when using serverless-webpack it (by default) outputs all the build assets to `<projectRoot>/.webpack/service`
     # this will let appsync-offline know where to find those compiled files
     buildPrefix: .webpack/service
@@ -178,7 +178,7 @@ custom:
 
 ## Notes
 
-The [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appsync-emulator-serverless) does not support CloudFormation syntax (e.g. `tableName: { Ref: UsersTable }`) in `dataSources`.
+The [AppSync Emulator](https://github.com/ConduitVC/aws-utils/tree/appsync/packages/appSyncOffline-serverless) does not support CloudFormation syntax (e.g. `tableName: { Ref: UsersTable }`) in `dataSources`.
 
 ## License
 

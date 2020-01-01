@@ -38,7 +38,7 @@ function mutate(client) {
 }
 
 // These specs execute slowly on Mac, so need a larger timeout.
-describe('appsync-emulator-serverless/tester', () => {
+describe('appSyncOffline-serverless/tester', () => {
   let serverSetup;
   beforeEach(async () => {
     jest.setTimeout(10 * 1000);

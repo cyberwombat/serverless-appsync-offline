@@ -34,13 +34,13 @@ This sections lists known deviations from AppSync behaviour
 [DynamoDB Local](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html) is an optional dependency and installed by default. If you would rather provide your own DynamoDB server, you can instruct npm/yarn not to install optional dependencies.
 
 ```
-npm i @conduitvc/appsync-emulator-serverless [--no-optional]
+npm i @conduitvc/appSyncOffline-serverless [--no-optional]
 ```
 
 or
 
 ```
-yarn add @conduitvc/appsync-emulator-serverless [--ignore-optional]
+yarn add @conduitvc/appSyncOffline-serverless [--ignore-optional]
 ```
 
 ## Usage
@@ -51,7 +51,7 @@ If using the DynamoDB emulator, data is preserved between emulator runs and is s
 
 ```sh
 # NOTE unless you assign a specific port a random one will be chosen.
-yarn appsync-emulator --port 62222
+yarn appSyncOffline --port 62222
 ```
 
 #### dynamodb with fixed port
@@ -60,7 +60,7 @@ optional start dynamodb at a fixed port - e.g. 8000
 
 ```sh
 # NOTE unless you assign a specific port for dynamodb a random one will be chosen.
-yarn appsync-emulator --port 62222 --dynamodb-port 8000
+yarn appSyncOffline --port 62222 --dynamodb-port 8000
 ```
 
 to access the dynamodb instance using javascript you need to use the following configuration:
@@ -86,7 +86,7 @@ You may also specify a different file name or path. Path is relative to the
 location of the serverless.yml config file path.
 
 ```sh
-yarn appsync-emulator --config myConfigFile
+yarn appSyncOffline --config myConfigFile
 ```
 
 ```
@@ -120,7 +120,7 @@ you will need to add the following configuration to your project's `serverless.y
 
 ```
 custom:
-  appsync-emulator:
+  appSyncOffline:
     buildPrefix: $PREFIX_LOCATION
 ```
 
@@ -151,7 +151,7 @@ const gql = require('graphql-tag')
 const { AWSAppSyncClient } = require('aws-appsync')
 
 // we export a specific module for testing.
-const createAppSync = require('@conduitvc/appsync-emulator-serverless/jest')
+const createAppSync = require('@conduitvc/appSyncOffline-serverless/jest')
 // required by apollo-client
 global.fetch = require('node-fetch')
 
@@ -180,7 +180,7 @@ const { AWSAppSyncClient } = require('aws-appsync')
 const {
   create,
   connect
-} = require('@conduitvc/appsync-emulator-serverless/tester')
+} = require('@conduitvc/appSyncOffline-serverless/tester')
 // required by apollo-client
 global.fetch = require('node-fetch')
 
@@ -266,5 +266,5 @@ module.exports.myFn = async (event, context, callback) => {
 
 ### IAM
 
-If you would like to simulate IAM authentication locally, checkout the [testJWT](https://github.com/ConduitVC/aws-utils/blob/master/packages/appsync-emulator-serverless/testJWT.js) module
-See the [tester](https://github.com/ConduitVC/aws-utils/blob/master/packages/appsync-emulator-serverless/tester.js) module for sample usage.
+If you would like to simulate IAM authentication locally, checkout the [testJWT](https://github.com/ConduitVC/aws-utils/blob/master/packages/appSyncOffline-serverless/testJWT.js) module
+See the [tester](https://github.com/ConduitVC/aws-utils/blob/master/packages/appSyncOffline-serverless/tester.js) module for sample usage.

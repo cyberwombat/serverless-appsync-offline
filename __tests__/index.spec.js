@@ -3,8 +3,8 @@ import ServerlessAppSyncPlugin from '../index';
 import { DynamoDB } from 'aws-sdk';
 jest.mock('aws-sdk');
 
-import createServer from '@conduitvc/appsync-emulator-serverless/server';
-jest.mock('@conduitvc/appsync-emulator-serverless/server');
+import createServer from '@conduitvc/appSyncOffline-serverless/server';
+jest.mock('@conduitvc/appSyncOffline-serverless/server');
 
 describe('ServerlessAppSyncPlugin', () => {
   let mocks,
