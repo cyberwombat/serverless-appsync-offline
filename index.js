@@ -59,7 +59,7 @@ class ServerlessAppSyncPlugin {
                   'Optimizes the underlying database tables before starting up DynamoDB on your computer. You must also specify -dbPath when you use this parameter.'
               },
               preferredSchema: {
-                shortcut: 's',
+                shortcut: 'a',
                 usage: 'Schema name to use for multiple schema handling.'
               },
               bootstrapScript: {
