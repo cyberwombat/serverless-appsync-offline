@@ -1,15 +1,29 @@
 {
+  "parser": "babel-eslint",
   "extends": [
-    "plugin:prettier/recommended"
+    "standard"
   ],
   "env": {
     "jest": true,
     "node": true
   },
+  "plugins": [],
   "parserOptions": {
-    "ecmaVersion": 2018
+    "ecmaVersion": 2018,
+    "allowImportExportEverywhere": true
   },
   "rules": {
+    "template-curly-spacing": "off",
+    "indent": [
+      "warn",
+      2,
+      {
+        "ignoredNodes": [
+          "TemplateLiteral"
+        ],
+        "SwitchCase": 1
+      }
+    ],
     "no-unused-vars": 1
   }
 }

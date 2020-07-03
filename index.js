@@ -4,7 +4,7 @@ const path = require('path')
 const createServer = require('./lib/server')
 
 class ServerlessAppSyncPlugin {
-  constructor(serverless, options) {
+  constructor (serverless, options) {
     this.serverless = serverless
     this.servicePath = serverless.config.servicePath
     this.serverlessLog = serverless.cli.log.bind(serverless.cli)
@@ -82,19 +82,18 @@ class ServerlessAppSyncPlugin {
     }
   }
 
-  get port() {
+  get port () {
     const config = (this.service.custom && this.service.custom.dynamodb) || {}
     const port = _.get(config, 'start.port', null)
     return port
   }
 
-  async startHandler(isStandalone = false) {
+  async startHandler (isStandalone = false) {
     this._setOptions()
     let dynamodb = null
 
     try {
-      if (!this.options.dynamodb.client.endpoint)
-        throw new Error('Provide a DynamoDB endpoint')
+      if (!this.options.dynamodb.client.endpoint) { throw new Error('Provide a DynamoDB endpoint') }
 
       const { DynamoDB } = require('aws-sdk')
       dynamodb = new DynamoDB(this.options.dynamodb.client)
@@ -133,14 +132,14 @@ class ServerlessAppSyncPlugin {
     }
   }
 
-  async startStandaloneHandler() {
+  async startStandaloneHandler () {
     this.serverlessLog('AppSync Standalone')
     return Promise.resolve(this.startHandler(true)).then(() =>
       this._listenForTermination()
     )
   }
 
-  endHandler() {
+  endHandler () {
     if (this.emulator) {
       // DynamoDB only needs stopping if we actually started it. If an external
       // connection was specified then this.emulator will be undefined.
@@ -154,10 +153,10 @@ class ServerlessAppSyncPlugin {
     }
   }
 
-  _setOptions() {
+  _setOptions () {
     // Merge the different sources of values for this.options
     // Precedence is: command line options, YAML options, defaults.
-    //this.serverlessLog(JSON.stringify(this.options));
+    // this.serverlessLog(JSON.stringify(this.options));
     const defaultOpts = {
       port: null,
       elastic: {
@@ -177,9 +176,7 @@ class ServerlessAppSyncPlugin {
       }
     }
 
-    let appSyncOfflineOptions = (this.serverless.service.custom || {})[
-      'appSyncOffline'
-    ]
+    const appSyncOfflineOptions = (this.serverless.service.custom || {}).appSyncOffline
 
     this.options = _.merge(
       {},
@@ -211,7 +208,7 @@ class ServerlessAppSyncPlugin {
     )
   }
 
-  _listenForTermination() {
+  _listenForTermination () {
     // SIGINT will be usually sent when user presses ctrl+c
     const waitForSigInt = new Promise(resolve => {
       process.on('SIGINT', () => resolve('SIGINT'))
