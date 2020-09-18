@@ -7,7 +7,7 @@ class ServerlessAppSyncPlugin {
   constructor (serverless, options) {
     this.serverless = serverless
     this.servicePath = serverless.config.servicePath
-    this.serverlessLog = serverless.cli.log.bind(serverless.cli)
+    this.serverlessLog = (log) => serverless.cli.log(log, 'appSync')
     this.options = options
 
     this.commands = {
